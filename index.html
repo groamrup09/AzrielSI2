@@ -3,75 +3,80 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AZRIEL SI2A - DartPad Challenge</title>
+<title>Program Fibonacci</title>
 
 <style>
-  body {
+* {
   margin: 0;
-  padding: 20px;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
   font-family: Arial, sans-serif;
   background: linear-gradient(to bottom, #0f2027, #203a43, #2c5364);
+  min-height: 100vh;
   overflow-x: hidden;
 }
 
+/* Rain Background */
 .rain {
   position: fixed;
-  top: 0;
-  left: 0;
   width: 100%;
   height: 100%;
+  top: 0;
+  left: 0;
   pointer-events: none;
-  background-image: repeating-linear-gradient(
-    to bottom,
-    rgba(255,255,255,0.3) 0px,
-    rgba(255,255,255,0.3) 2px,
-    transparent 2px,
-    transparent 15px
-  );
-  animation: rainFall 0.5s linear infinite;
-  z-index: 0;
+  z-index: 1;
 }
 
-@keyframes rainFall {
-  from { background-position: 0 0; }
-  to { background-position: 0 20px; }
+.drop {
+  position: absolute;
+  bottom: 100%;
+  width: 2px;
+  height: 15px;
+  background: rgba(255,255,255,0.4);
+  animation: fall linear infinite;
 }
 
+@keyframes fall {
+  to {
+    transform: translateY(100vh);
+  }
+}
 
+/* Content */
 .container {
   position: relative;
   z-index: 2;
-}
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 20px;
-  background: #f4f6f9;
-  text-align: center;
-}
-
-.container {
   max-width: 800px;
-  margin: auto;
+  margin: 100px auto;
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
 }
 
-h2 {
-  margin-bottom: 10px;
+h1 {
+  margin-bottom: 15px;
 }
 
-.description {
+p {
   margin-bottom: 20px;
   color: #555;
 }
 
 button {
-  padding: 10px 20px;
+  padding: 12px 25px;
   background: #0066ff;
   color: white;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
-  margin-bottom: 20px;
+  font-size: 16px;
+  margin-bottom: 25px;
+  transition: 0.3s;
 }
 
 button:hover {
@@ -82,14 +87,13 @@ img {
   width: 100%;
   max-width: 600px;
   border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
-
+/* Modal */
 .modal {
   display: none;
   position: fixed;
-  z-index: 1000;
+  z-index: 999;
   left: 0;
   top: 0;
   width: 100%;
@@ -102,53 +106,62 @@ img {
   width: 90%;
   max-width: 900px;
   margin: 5% auto;
-  padding: 10px;
+  padding: 15px;
   border-radius: 10px;
 }
 
 .close {
   float: right;
-  font-size: 24px;
+  font-size: 28px;
   cursor: pointer;
 }
 </style>
 </head>
 
 <body>
-<div class="rain"></div>
+
+
+<div class="rain" id="rain"></div>
+
 <div class="container">
+  <h1>Program Fibonacci</h1>
+  <p>
+    Program ini menampilkan hasil perhitungan Fibonacci menggunakan rekursi di Dart.
+    Gambar di bawah adalah hasil output program.
+  </p>
 
-<h2>Program Fibonacci</h2>
+  <button onclick="openModal()">Lihat Source Code</button>
 
-<p class="description">
-Program ini menampilkan hasil perhitungan Fibonacci menggunakan rekursi di Dart.
-Gambar di bawah adalah hasil output program.
-</p>
-
-<button onclick="openModal()">Lihat Source Code</button>
-
-<br>
-
-<img src="capture-output.png" alt="Output Program">
-
+  <img src="output.png" alt="Output Program">
 </div>
 
 
 <div id="dartModal" class="modal">
   <div class="modal-content">
     <span class="close" onclick="closeModal()">&times;</span>
-
     <iframe 
-      src="https://dartpad.dev/embed-dart.html?id=bd3af42ea20c8e23cc0e63354048a81c"
+      src="https://dartpad.dev/embed-dart.html?id=ea5ec252ff7e082482a120faaff5a0b4"
       width="100%" 
       height="500"
       frameborder="0">
     </iframe>
-
   </div>
 </div>
 
 <script>
+
+const rainContainer = document.getElementById("rain");
+
+for (let i = 0; i < 100; i++) {
+  const drop = document.createElement("div");
+  drop.classList.add("drop");
+  drop.style.left = Math.random() * 100 + "vw";
+  drop.style.animationDuration = (Math.random() * 0.5 + 0.5) + "s";
+  drop.style.animationDelay = Math.random() * 5 + "s";
+  rainContainer.appendChild(drop);
+}
+
+
 function openModal() {
   document.getElementById("dartModal").style.display = "block";
 }
